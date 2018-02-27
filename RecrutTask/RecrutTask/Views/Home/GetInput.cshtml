@@ -1,0 +1,54 @@
+﻿@*Im declare a strong type model*@
+@model RecrutTask.Models.DataModelEntity
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>This program translates your text</h2>
+@*I create here a Form with InputString using html.Helper after click button submit InputString takes value from TextBoXFor*@
+@using (Html.BeginForm("GetInput","Home",FormMethod.Post,new { id = "my-Form" }))
+{
+
+    @Html.ValidationSummary()
+
+        @Html.LabelFor(x => Model.InputString)
+        @Html.TextBoxFor(x=>Model.InputString)
+
+    <input class="btn btn-success" type="submit" value="Translate" />
+}
+<div id="result">
+  
+</div>
+@*I using here an ajax to no reload a page and to show result in the new page*@
+@section scripts{
+   
+   <script type="text/javascript">
+
+       $(function () {
+
+           $("#my-Form").on("submit", function (e) {
+               e.preventDefault();
+
+               $.ajax({
+                   url: this.action,
+                   type: this.method,
+                   data: $(this).serialize(),
+                   success: function (data) {
+                       $("#result").html(data);
+                   }
+               });
+
+           });
+       });
+
+    </script>
+    
+   
+    
+    
+    
+    
+    
+    }
+
